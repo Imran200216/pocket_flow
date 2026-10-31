@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gap/gap.dart';
 import 'package:pocket_flow/core/utils/responsive_utils.dart';
 import 'package:pocket_flow/l10n/app_localizations.dart';
 
@@ -26,7 +27,7 @@ class AccountSetupHeader extends StatelessWidget {
               fontSize: responsive.value(mobile: 36.0, tablet: 44.0),
             ),
           ).animate().fadeIn().slideY(begin: 0.2, end: 0),
-          SizedBox(height: responsive.elementSpacing),
+          Gap(responsive.elementSpacing),
           Text(
             l10n.accountSetupSubtitle,
             style: theme.textTheme.bodyLarge?.copyWith(
@@ -34,7 +35,7 @@ class AccountSetupHeader extends StatelessWidget {
               fontSize: responsive.value(mobile: 16.0, tablet: 20.0),
             ),
           ).animate().fadeIn(delay: 150.ms).slideY(begin: 0.2, end: 0),
-          SizedBox(height: responsive.sectionSpacing),
+          Gap(responsive.sectionSpacing),
         ],
       ),
     );

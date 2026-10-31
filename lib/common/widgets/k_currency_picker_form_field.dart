@@ -1,20 +1,25 @@
 import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:pocket_flow/common/widgets/k_labeled_field.dart';
 
 /// Form field that opens the `currency_picker` sheet. Styled by the theme.
 class KCurrencyPickerFormField extends StatelessWidget {
   const KCurrencyPickerFormField({
     super.key,
+    required this.label,
     required this.hintText,
     required this.onSelected,
     this.currencyCode,
     this.validator,
+    this.prefixIcon,
   });
 
+  final String label;
   final String hintText;
   final ValueChanged<Currency> onSelected;
   final String? currencyCode;
   final FormFieldValidator<String>? validator;
+  final IconData? prefixIcon;
 
   String? get _displayText {
     final code = currencyCode;
@@ -52,28 +57,32 @@ class KCurrencyPickerFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return FormField<String>(
-      key: ValueKey(currencyCode),
-      initialValue: currencyCode,
-      validator: validator,
-      builder: (field) => InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () => _openPicker(context),
-        child: InputDecorator(
-          decoration: InputDecoration(
-            errorText: field.errorText,
-            suffixIcon: Icon(
-              Icons.keyboard_arrow_down_rounded,
-              color: theme.colorScheme.onSurfaceVariant,
+    return KLabeledField(
+      label: label,
+      child: FormField<String>(
+        key: ValueKey(currencyCode),
+        initialValue: currencyCode,
+        validator: validator,
+        builder: (field) => InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () => _openPicker(context),
+          child: InputDecorator(
+            decoration: InputDecoration(
+              errorText: field.errorText,
+              prefixIcon: prefixIcon == null ? null : Icon(prefixIcon),
+              suffixIcon: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
-          ),
-          isEmpty: _displayText == null,
-          child: Text(
-            _displayText ?? hintText,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: _displayText == null
-                  ? theme.colorScheme.onSurfaceVariant
-                  : null,
+            isEmpty: _displayText == null,
+            child: Text(
+              _displayText ?? hintText,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: _displayText == null
+                    ? theme.colorScheme.onSurfaceVariant
+                    : null,
+              ),
             ),
           ),
         ),

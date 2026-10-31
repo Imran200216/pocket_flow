@@ -1,12 +1,15 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:pocket_flow/common/widgets/k_labeled_field.dart';
 
 /// App-wide dropdown form field, built on `dropdown_button2`.
 /// ALWAYS use this instead of `DropdownButtonFormField` / raw dropdown widgets.
 /// Styling comes from the theme (`InputDecorationTheme`, `ColorScheme`).
-class KDropdownTextFormField<T> extends StatefulWidget {
+class KDropdownTextFormField<T> extends HookWidget {
   const KDropdownTextFormField({
     super.key,
+    required this.label,
     required this.items,
     required this.itemLabel,
     required this.hintText,
@@ -16,79 +19,67 @@ class KDropdownTextFormField<T> extends StatefulWidget {
     this.prefixIcon,
   });
 
+  final String label;
   final List<T> items;
   final String Function(T item) itemLabel;
   final String hintText;
   final ValueChanged<T?> onChanged;
   final T? value;
   final FormFieldValidator<T>? validator;
-  final Widget? prefixIcon;
-
-  @override
-  State<KDropdownTextFormField<T>> createState() =>
-      _KDropdownTextFormFieldState<T>();
-}
-
-class _KDropdownTextFormFieldState<T> extends State<KDropdownTextFormField<T>> {
-  late final ValueNotifier<T?> _selectedValue = ValueNotifier(widget.value);
-
-  @override
-  void didUpdateWidget(covariant KDropdownTextFormField<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _selectedValue.value = widget.value;
-  }
-
-  @override
-  void dispose() {
-    _selectedValue.dispose();
-    super.dispose();
-  }
+  final IconData? prefixIcon;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
-    return DropdownButtonFormField2<T>(
-      valueListenable: _selectedValue,
-      isExpanded: true,
-      decoration: InputDecoration(prefixIcon: widget.prefixIcon),
-      hint: Text(
-        widget.hintText,
-        style: theme.textTheme.bodyLarge?.copyWith(
-          color: colors.onSurfaceVariant,
+    final selectedValue = useValueNotifier<T?>(value, [value]);
+
+    return KLabeledField(
+      label: label,
+      child: DropdownButtonFormField2<T>(
+        valueListenable: selectedValue,
+        isExpanded: true,
+        decoration: InputDecoration(
+          prefixIcon: prefixIcon == null ? null : Icon(prefixIcon),
         ),
-      ),
-      items: [
-        for (final item in widget.items)
-          DropdownItem<T>(
-            value: item,
-            child: Text(
-              widget.itemLabel(item),
-              style: theme.textTheme.bodyLarge,
-            ),
+        hint: Text(
+          hintText,
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: colors.onSurfaceVariant,
           ),
-      ],
-      selectedItemBuilder: (context) => [
-        for (final item in widget.items)
-          Text(widget.itemLabel(item), style: theme.textTheme.bodyLarge),
-      ],
-      onChanged: widget.onChanged,
-      validator: widget.validator,
-      iconStyleData: IconStyleData(
-        icon: const Icon(Icons.keyboard_arrow_down_rounded),
-        iconEnabledColor: colors.onSurfaceVariant,
-      ),
-      dropdownStyleData: DropdownStyleData(
-        maxHeight: 280,
-        decoration: BoxDecoration(
-          color: colors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: colors.primaryContainer),
         ),
-        offset: const Offset(0, -4),
-      ),
-      menuItemStyleData: const MenuItemStyleData(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        items: [
+          for (final item in items)
+            DropdownItem<T>(
+              value: item,
+              child: Text(itemLabel(item), style: theme.textTheme.bodyLarge),
+            ),
+        ],
+        selectedItemBuilder: (context) => [
+          for (final item in items)
+            Text(itemLabel(item), style: theme.textTheme.bodyLarge),
+        ],
+        onChanged: onChanged,
+        validator: validator,
+        buttonStyleData: const FormFieldButtonStyleData(
+          padding: EdgeInsets.zero,
+        ),
+        iconStyleData: IconStyleData(
+          icon: const Icon(Icons.keyboard_arrow_down_rounded),
+          iconEnabledColor: colors.onSurfaceVariant,
+        ),
+        dropdownStyleData: DropdownStyleData(
+          maxHeight: 280,
+          decoration: BoxDecoration(
+            color: colors.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: colors.primaryContainer),
+          ),
+          offset: const Offset(0, -4),
+        ),
+        menuItemStyleData: const MenuItemStyleData(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+        ),
       ),
     );
   }

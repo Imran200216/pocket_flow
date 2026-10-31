@@ -166,10 +166,16 @@ abstract class AppLocalizations {
   /// **'Tell us a little about you to personalise Pocket Flow'**
   String get accountSetupSubtitle;
 
-  /// No description provided for @usernameHint.
+  /// No description provided for @usernameLabel.
   ///
   /// In en, this message translates to:
   /// **'Username'**
+  String get usernameLabel;
+
+  /// No description provided for @usernameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username'**
   String get usernameHint;
 
   /// No description provided for @usernameRequired.
@@ -178,10 +184,16 @@ abstract class AppLocalizations {
   /// **'Please enter a username'**
   String get usernameRequired;
 
-  /// No description provided for @languageHint.
+  /// No description provided for @languageLabel.
   ///
   /// In en, this message translates to:
   /// **'Language'**
+  String get languageLabel;
+
+  /// No description provided for @languageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select language'**
   String get languageHint;
 
   /// No description provided for @languageRequired.
@@ -190,10 +202,16 @@ abstract class AppLocalizations {
   /// **'Please select a language'**
   String get languageRequired;
 
-  /// No description provided for @currencyHint.
+  /// No description provided for @currencyLabel.
   ///
   /// In en, this message translates to:
   /// **'Currency'**
+  String get currencyLabel;
+
+  /// No description provided for @currencyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select currency'**
   String get currencyHint;
 
   /// No description provided for @currencyRequired.

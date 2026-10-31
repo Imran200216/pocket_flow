@@ -15,11 +15,14 @@
   "getStarted": "Get Started",
   "accountSetupTitle": "Set up your account",
   "accountSetupSubtitle": "Tell us a little about you to personalise Pocket Flow",
-  "usernameHint": "Username",
+  "usernameLabel": "Username",
+  "usernameHint": "Enter your username",
   "usernameRequired": "Please enter a username",
-  "languageHint": "Language",
+  "languageLabel": "Language",
+  "languageHint": "Select language",
   "languageRequired": "Please select a language",
-  "currencyHint": "Currency",
+  "currencyLabel": "Currency",
+  "currencyHint": "Select currency",
   "currencyRequired": "Please select a currency",
   "continueLabel": "Continue"
 }

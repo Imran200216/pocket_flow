@@ -50,19 +50,28 @@ class AppLocalizationsEn extends AppLocalizations {
       'Tell us a little about you to personalise Pocket Flow';
 
   @override
-  String get usernameHint => 'Username';
+  String get usernameLabel => 'Username';
+
+  @override
+  String get usernameHint => 'Enter your username';
 
   @override
   String get usernameRequired => 'Please enter a username';
 
   @override
-  String get languageHint => 'Language';
+  String get languageLabel => 'Language';
+
+  @override
+  String get languageHint => 'Select language';
 
   @override
   String get languageRequired => 'Please select a language';
 
   @override
-  String get currencyHint => 'Currency';
+  String get currencyLabel => 'Currency';
+
+  @override
+  String get currencyHint => 'Select currency';
 
   @override
   String get currencyRequired => 'Please select a currency';

@@ -31,7 +31,7 @@ class AccountSetupRoute extends _i6.PageRouteInfo<void> {
   static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
-      return _i6.WrappedRoute(child: const _i1.AccountSetupScreen());
+      return const _i1.AccountSetupScreen();
     },
   );
 }

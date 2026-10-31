@@ -71,6 +71,32 @@ The app MUST be responsive for both mobile and tablet. Every screen, no exceptio
 - Field styling (fill, borders, hint, error) comes from `InputDecorationTheme` in `lib/core/themes`; never style fields with hardcoded colors in screens.
 - Reusable form widgets belong in `lib/common/widgets/`; prefix app-wide shared form widgets with `K`.
 
+- ALL text inputs MUST use `KTextFormField` (`lib/common/widgets/k_text_form_field.dart`); NEVER use a raw `TextFormField`/`TextField` in screens.
+- Every `K` field shows a label on top (`KLabeledField`): a `Text` label, a gap, then the field. Always pass `label` and `hintText` from l10n.
+
+- ALL filled buttons MUST use `KFilledBtn` (`lib/common/widgets/k_filled_btn.dart`); NEVER use a raw `FilledButton`. It has `isLoading`, which shows `CircularProgressIndicator.adaptive` and ignores taps; drive it from state (e.g. `state.isLoading`).
+
+## Bloc usage (STRICT)
+
+- ALWAYS use `BlocConsumer`. NEVER use `BlocBuilder`, `BlocListener`, or `BlocSelector` directly (pass an empty `listener` if only building, and `buildWhen` / `listenWhen` to limit work).
+- NEVER wrap a `Scaffold` or a whole screen/form in a `BlocConsumer`. Wrap ONLY the smallest widget that needs to rebuild or react (a single field, a button), with a narrow `buildWhen`.
+- ALL blocs/cubits are registered in `lib/core/providers/app_bloc_providers.dart` (`AppBlocProviders.providers`), which `main.dart` passes to `MultiBlocProvider` above the app. NEVER create a `BlocProvider` inside a screen/route; add the bloc to that list instead.
+- Side effects (navigation, snackbars) go in the `listener` of the nearest `BlocConsumer` with a precise `listenWhen`.
+- Use enums (`lib/core/enums/`) for statuses, e.g. `initial / loading / success`, not booleans/strings.
+
+## Spacing (STRICT)
+
+- Use `Gap` (`package:gap/gap.dart`) for ALL spacing between widgets in a `Column`/`Row`/`Flex`. NEVER use `SizedBox` as a spacer (`SizedBox(height: ...)` / `SizedBox(width: ...)`).
+- Device-dependent gaps use `Gap(context.responsive.elementSpacing)` etc. (see Responsive design).
+- `SizedBox` is only allowed for fixed-size boxes (e.g. an icon/image size), never for spacing.
+
+## Hooks (STRICT)
+
+- Use `flutter_hooks` for widget-local state and disposables. NEVER write `initState` / `dispose` / `StatefulWidget` for this; use `HookWidget`.
+- Controllers: `useTextEditingController()`, `usePageController()`, `useScrollController()`, `useFocusNode()`, `useAnimationController()` (they dispose themselves).
+- Local state: `useState`, `useValueNotifier`, `useMemoized` (e.g. `useMemoized(GlobalKey<FormState>.new)`), `useEffect` for side effects.
+- Only fall back to `StatefulWidget` when a hook cannot express it, and ask the user first.
+
 ## Conventions
 
 - Navigation: `auto_route`. Annotate pages with `@RoutePage()`; register in `lib/core/router/app_router.dart`. Regenerate with `fvm dart run build_runner build --delete-conflicting-outputs`.

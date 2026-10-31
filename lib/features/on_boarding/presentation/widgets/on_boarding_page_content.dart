@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gap/gap.dart';
 import 'package:pocket_flow/core/utils/responsive_utils.dart';
 import 'package:pocket_flow/features/on_boarding/presentation/models/on_boarding_item.dart';
 
@@ -29,7 +30,7 @@ class OnBoardingPageContent extends StatelessWidget {
                   ),
             ),
           ),
-          SizedBox(height: responsive.sectionSpacing),
+          Gap(responsive.sectionSpacing),
           Text(
             item.title,
             textAlign: TextAlign.center,
@@ -37,7 +38,7 @@ class OnBoardingPageContent extends StatelessWidget {
               fontSize: responsive.value(mobile: 32.0, tablet: 40.0),
             ),
           ).animate().fadeIn(delay: 150.ms).slideY(begin: 0.2, end: 0),
-          SizedBox(height: responsive.elementSpacing),
+          Gap(responsive.elementSpacing),
           Text(
             item.subtitle,
             textAlign: TextAlign.center,

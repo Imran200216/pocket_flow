@@ -17,7 +17,9 @@ dependencies:
   # State management
   bloc: ^9.2.1
   flutter_bloc: ^9.1.1
+  bloc_concurrency: ^0.3.0
   hydrated_bloc: ^11.0.0
+  flutter_hooks: ^0.21.3+1
 
   # Models
   freezed_annotation: ^3.1.0
@@ -35,6 +37,8 @@ dependencies:
   dropdown_button2: ^3.1.0
   auto_route: ^11.2.0
   currency_picker: ^2.0.22
+  gap: ^3.0.1
+  logger: ^2.8.0
   
 
   # Dependency injection

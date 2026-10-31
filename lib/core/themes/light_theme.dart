@@ -34,6 +34,7 @@ abstract final class LightTheme {
           height: 1.5,
         ),
         titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
       ).apply(
         fontFamily: FontFamily.instrumentSans,
         bodyColor: _colorScheme.onSurface,
@@ -54,6 +55,11 @@ abstract final class LightTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: _colorScheme.secondaryContainer,
+      prefixIconColor: WidgetStateColor.resolveWith(
+        (states) => states.contains(WidgetState.focused)
+            ? _colorScheme.primary
+            : _colorScheme.onSurfaceVariant,
+      ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       hintStyle: _textTheme.bodyLarge?.copyWith(
         color: _colorScheme.onSurfaceVariant,

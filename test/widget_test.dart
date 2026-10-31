@@ -1,6 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pocket_flow/core/providers/app_bloc_providers.dart';
 import 'package:pocket_flow/main.dart';
+
+Widget _buildApp() => AppBlocProviders.wrap(child: MyApp());
 
 void _usePhoneScreen(WidgetTester tester) {
   tester.view.physicalSize = const Size(1170, 2532);
@@ -9,7 +12,7 @@ void _usePhoneScreen(WidgetTester tester) {
 }
 
 Future<void> _goToAccountSetup(WidgetTester tester) async {
-  await tester.pumpWidget(MyApp());
+  await tester.pumpWidget(_buildApp());
   await tester.pumpAndSettle();
   await tester.tap(find.text('Next'));
   await tester.pumpAndSettle();
@@ -23,7 +26,7 @@ void main() {
   testWidgets('Onboarding shows Next, then Get Started on the last page', (
     tester,
   ) async {
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(_buildApp());
     await tester.pumpAndSettle();
 
     expect(find.text('Next'), findsOneWidget);

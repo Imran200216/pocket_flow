@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gap/gap.dart';
+import 'package:pocket_flow/common/widgets/k_filled_btn.dart';
 import 'package:pocket_flow/common/widgets/responsive_body.dart';
 import 'package:pocket_flow/core/gen/assets.gen.dart';
 import 'package:pocket_flow/core/router/app_router.gr.dart';
@@ -10,37 +13,16 @@ import 'package:pocket_flow/features/on_boarding/presentation/widgets/on_boardin
 import 'package:pocket_flow/l10n/app_localizations.dart';
 
 @RoutePage()
-class OnBoardingScreen extends StatefulWidget {
+class OnBoardingScreen extends HookWidget {
   const OnBoardingScreen({super.key});
-
-  @override
-  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
-}
-
-class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  final _controller = PageController();
-  int _currentPage = 0;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onPrimaryPressed(int pageCount) {
-    if (_currentPage == pageCount - 1) {
-      context.router.replace(const AccountSetupRoute());
-      return;
-    }
-    _controller.nextPage(
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final responsive = context.responsive;
+    final pageController = usePageController();
+    final currentPage = useState(0);
+
     final items = [
       OnBoardingItem(
         image: Assets.svg.moneyWithHand,
@@ -58,8 +40,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         subtitle: l10n.onBoardingThirdSubtitle,
       ),
     ];
-    final isLast = _currentPage == items.length - 1;
-    final responsive = context.responsive;
+    final isLastPage = currentPage.value == items.length - 1;
+
+    void onPrimaryPressed() {
+      if (isLastPage) {
+        context.router.replace(const AccountSetupRoute());
+        return;
+      }
+      pageController.nextPage(
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -68,35 +60,29 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             children: [
               Expanded(
                 child: PageView.builder(
-                  controller: _controller,
+                  controller: pageController,
                   itemCount: items.length,
-                  onPageChanged: (page) => setState(() => _currentPage = page),
+                  onPageChanged: (page) => currentPage.value = page,
                   itemBuilder: (context, index) =>
                       OnBoardingPageContent(item: items[index]),
                 ),
               ),
-              SizedBox(height: responsive.sectionSpacing),
+              Gap(responsive.sectionSpacing),
               OnBoardingPageIndicator(
-                controller: _controller,
+                controller: pageController,
                 count: items.length,
               ),
-              SizedBox(height: responsive.sectionSpacing),
+              Gap(responsive.sectionSpacing),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: responsive.horizontalPadding,
                 ),
-                child: FilledButton(
-                  onPressed: () => _onPrimaryPressed(items.length),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 250),
-                    child: Text(
-                      isLast ? l10n.getStarted : l10n.next,
-                      key: ValueKey(isLast),
-                    ),
-                  ),
+                child: KFilledBtn(
+                  label: isLastPage ? l10n.getStarted : l10n.next,
+                  onPressed: onPrimaryPressed,
                 ),
               ),
-              SizedBox(height: responsive.verticalSpacing),
+              Gap(responsive.verticalSpacing),
             ],
           ),
         ),
