@@ -1,0 +1,25 @@
+{
+  "@@locale": "en",
+  "appTitle": "Pocket Flow",
+  "@appTitle": {
+    "description": "The application title"
+  },
+  "splashTitle": "Splash",
+  "onBoardingFirstTitle": "Gain total control\nof your money",
+  "onBoardingFirstSubtitle": "Become your own money manager\nand make every cent count",
+  "onBoardingSecondTitle": "Know where your\nmoney goes",
+  "onBoardingSecondSubtitle": "Track your transaction easily,\nwith categories and financial report",
+  "onBoardingThirdTitle": "Planning ahead",
+  "onBoardingThirdSubtitle": "Setup your budget for each category\nso you in control",
+  "next": "Next",
+  "getStarted": "Get Started",
+  "accountSetupTitle": "Set up your account",
+  "accountSetupSubtitle": "Tell us a little about you to personalise Pocket Flow",
+  "usernameHint": "Username",
+  "usernameRequired": "Please enter a username",
+  "languageHint": "Language",
+  "languageRequired": "Please select a language",
+  "currencyHint": "Currency",
+  "currencyRequired": "Please select a currency",
+  "continueLabel": "Continue"
+}
